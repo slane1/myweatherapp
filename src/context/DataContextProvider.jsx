@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-const DataContext = React.createContext()
+const DataContext = createContext()
 
 export default function DataContextProvider(props) {
     const apiKey = 'NCFN7TZYXT3A6UPTS9FD358WK';
