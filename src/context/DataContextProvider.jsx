@@ -134,7 +134,7 @@ export default function DataContextProvider(props) {
         setHourlyIcon(icons);
     }, [hourlyData]);
 
-      useEffect(() => {
+    useEffect(() => {
         const icons = dailyData.slice(1, 6).map(day => {
         switch (day.icon) {
         case 'clear-day':
