@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createContext } from 'react'
+import { Sun, Cloud, CloudyDay, Fog, Hail, HeavyRain, Rainy, Snowy, Storm, ThunderStorm, Sunrise, Sunset, FullMoon, CloudyNight } from '../util/icons'
 import axios from 'axios'
-const DataContext = createContext()
 
-export default function DataContextProvider(props) {
+export const DataContext = createContext();
+export default function DataContextProvider({ children }) {
     const apiKey = 'NCFN7TZYXT3A6UPTS9FD358WK';
-    const [city, setCity] = useState('Hannover');
+    const [city, setCity] = useState('Berlin');
     const [weatherData, setWeatherData] = useState([]);
     const [hourlyData, setHourlyData] = useState([]);
     const [dailyData, setDailyData] = useState([]); 
@@ -16,21 +17,23 @@ export default function DataContextProvider(props) {
         const searchInput = document.getElementById("search");
         const button = document.getElementById("button");
         const handleClick = (e) => {
-            e.preventDefault();
-            setCity(searchInput.value);
+          e.preventDefault();
+          setCity(searchInput.value);
         };
         const handleKeyUp = (e) => {
-            if (e.key === "Enter") {
-                setCity(searchInput.value);
-            }
+          if (e.key === "Enter") {
+            setCity(searchInput.value);
+          }
         };
+    
         button.addEventListener("click", handleClick);
         searchInput.addEventListener("keyup", handleKeyUp);
+    
         return () => {
-            button.removeEventListener("click", handleClick);
-            searchInput.removeEventListener("keyup", handleKeyUp);
+          button.removeEventListener("click", handleClick);
+          searchInput.removeEventListener("keyup", handleKeyUp);
         };
-    },[city]);
+      }, []);
 
     useEffect(() => {
         const getWeather = async () => {
@@ -170,8 +173,11 @@ export default function DataContextProvider(props) {
     }, [dailyData]);
 
     return (
-        <DataContext.Provider value={{ city, weatherData, hourlyData, dailyData, weatherIcon, hourlyIcon, dailyIcon }}>
-            {props.children}
+        <DataContext.Provider value={{ 
+            city, weatherData, hourlyData, dailyData, weatherIcon, hourlyIcon, dailyIcon,
+            setCity, setWeatherData, setHourlyData, setDailyData, setWeatherIcon, setHourlyIcon, setDailyIcon
+            }}>
+            {children}
         </DataContext.Provider>
     )
 }
