@@ -3,7 +3,7 @@ import { DataContext } from '../context/DataContext'
 import { Sunrise, Sunset } from '../util/icons'
 import { UilTear, UilWind, UilEye } from '@iconscout/react-unicons'
 
-export default function Weather() {
+export default function DataDisplay() {
     const { 
       city, weatherData, hourlyData, dailyData, weatherIcon, hourlyIcon, dailyIcon,
       } = useContext(DataContext);
