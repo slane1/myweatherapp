@@ -1,10 +1,11 @@
 import React, { useState, useEffect, createContext } from 'react'
 import { Sun, Cloud, CloudyDay, Fog, Hail, HeavyRain, Rainy, Snowy, Storm, ThunderStorm, Sunrise, Sunset, FullMoon, CloudyNight } from '../util/icons'
+const { VITE_WEATHER_API_KEY } = import.meta.env;
 import axios from 'axios'
 
 export const DataContext = createContext();
 export default function DataContextProvider({ children }) {
-    const apiKey = 'NCFN7TZYXT3A6UPTS9FD358WK';
+    const apiKey = VITE_WEATHER_API_KEY;
     const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState([]);
     const [hourlyData, setHourlyData] = useState([]);
