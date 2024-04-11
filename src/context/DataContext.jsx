@@ -5,7 +5,7 @@ import axios from 'axios'
 export const DataContext = createContext();
 export default function DataContextProvider({ children }) {
     const apiKey = 'NCFN7TZYXT3A6UPTS9FD358WK';
-    const [city, setCity] = useState('Berlin');
+    const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState([]);
     const [hourlyData, setHourlyData] = useState([]);
     const [dailyData, setDailyData] = useState([]); 
@@ -13,27 +13,64 @@ export default function DataContextProvider({ children }) {
     const [hourlyIcon, setHourlyIcon] = useState('');
     const [dailyIcon, setDailyIcon] = useState('');
 
+useEffect(() => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const getCity = async () => {
+                    try {
+                        const response = await axios.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
+                        const data = response.data;
+                        setCity(data.city);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                };
+                getCity();
+            },
+            (error) => {
+                console.log("Geolocation permission denied.");
+                getCityByIP();
+            }
+        );
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+        getCityByIP();
+    }
+}, []);
+    const getCityByIP = async () => {
+        try {
+            const response = await axios.get('https://ipapi.co/json');
+            const data = response.data;
+            setCity(data.city);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         const searchInput = document.getElementById("search");
         const button = document.getElementById("button");
         const handleClick = (e) => {
-          e.preventDefault();
-          setCity(searchInput.value);
+            e.preventDefault();
+            setCity(searchInput.value);
         };
         const handleKeyUp = (e) => {
-          if (e.key === "Enter") {
-            setCity(searchInput.value);
-          }
+        if (e.key === "Enter") {
+        setCity(searchInput.value);
+        }
         };
     
         button.addEventListener("click", handleClick);
         searchInput.addEventListener("keyup", handleKeyUp);
     
         return () => {
-          button.removeEventListener("click", handleClick);
-          searchInput.removeEventListener("keyup", handleKeyUp);
+        button.removeEventListener("click", handleClick);
+        searchInput.removeEventListener("keyup", handleKeyUp);
         };
-      }, []);
+    }, []);
 
     useEffect(() => {
         const getWeather = async () => {

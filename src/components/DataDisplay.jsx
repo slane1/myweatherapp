@@ -11,7 +11,7 @@ export default function DataDisplay() {
     return (
       <div>
       <div className=' w-80 rounded-lg h-auto min-h-24 p-4 bg-gradient-to-b from-light-verdigris-600 to-light-bondi_blue-700 shadow-md shadow-light-bondi_blue-300 mt-12'>
-        <div className='flex-row flex justify-end relative'> {/* To position the WeatherIcon on the top right corner */}
+        <div className='flex-row flex justify-end relative'>
           <img src={weatherIcon} alt="" className='w-20 h-20 z-30 absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0' />
         </div>
         <div className='flex flex-col items-start'>
