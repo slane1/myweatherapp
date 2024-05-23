@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  background-color: #acdebd;
+}
 .App {
   text-align: center;
 }
